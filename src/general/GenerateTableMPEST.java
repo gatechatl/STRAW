@@ -1,5 +1,6 @@
 package general;
 
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -9,9 +10,12 @@ import java.io.InputStreamReader;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-
-
-public class GenerateTable {
+/**
+ * Generate the html table of for the output tree
+ * @author gatec
+ *
+ */
+public class GenerateTableMPEST {
 
 	public static String type() {
 		return "GENERAL";
@@ -20,7 +24,7 @@ public class GenerateTable {
 		return "Generate table for html.";
 	}
 	public static String parameter_info() {
-		return "[newtreedist] [numtipdrop] [table.txt] [Report.html] [Report.html]";
+		return "[tripleControl.txt] [newtreedist] [numtipdrop] [table.txt] [Report.html] [Report.html]";
 	}
 	public static void execute(String[] args) {
 		
@@ -50,25 +54,46 @@ public class GenerateTable {
  					list2.add(str);
  				}
  			}
- 			in.close();
+ 			in2.close();
+
+                        String fileName3 = args[2]; // number of lines in SNA
+                        LinkedList list3 = new LinkedList();
+                        FileInputStream fstream3 = new FileInputStream(fileName3);
+                        DataInputStream din3 = new DataInputStream(fstream3);
+                        BufferedReader in3 = new BufferedReader(new InputStreamReader(din3));                           
+                        while (in3.ready()) {
+                                String str = in3.readLine();
+                                if (str.trim().length() > 0) {
+                                        list3.add(str);
+                                }
+                        }
+                        in3.close();
+
+
+
+
  			StringBuffer tablehtml = new StringBuffer();
- 			String outputFile = args[2]; // new output tree file
+ 			String outputFile = args[3]; // new output tree file
  			FileWriter fwriter = new FileWriter(outputFile);
 		    BufferedWriter out = new BufferedWriter(fwriter);
 		    
  			int i = 1;
-			if (list.size() == list2.size()) {
+			if (list.size() == list2.size() && list.size() == list3.size()) {
 				Iterator itr = list.iterator();
 				Iterator itr2 = list2.iterator();
+				Iterator itr3 = list3.iterator();
 				while (itr.hasNext()) {
 					String line = "GeneTree" + i + "\t";
 					String str1 = (String)itr2.next();
 					line += str1 + "\t";
 					String str2 = (String)itr.next();
 					line += str2 + "\t";
-					line += "GeneTree" + i + ".pdf\t";
+					String str3 = (String)itr3.next();
+					line += str3 + "\t";
+                                        line += "GeneTree" + i + ".pdf\t";
                                         //line += "diffSpecies" + i + ".svg\t";
-					line += "diffGene" + i + ".svg\t";
+                                        line += "diffGene" + i + ".svg\t";
+
 					out.write(line + "\n");
 					tablehtml.append(tableRow(line));
 					i++;					
@@ -80,13 +105,13 @@ public class GenerateTable {
 			
 			
 			
- 			outputFile = args[4]; // finalHtml file
+ 			outputFile = args[5]; // finalHtml file
  			fwriter = new FileWriter(outputFile);
 		    out = new BufferedWriter(fwriter);
 		    
 		    String html = "";
 		    
-		    String htmlFile = args[3]; // raw html
+		    String htmlFile = args[4]; // raw html
             fstream = new FileInputStream(htmlFile);
             din = new DataInputStream(fstream);
             in = new BufferedReader(new InputStreamReader(din));

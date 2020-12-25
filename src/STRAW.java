@@ -3,12 +3,14 @@ import java.util.LinkedList;
 
 import NJst.BootstrapSpeciesTreeNJstLowMem;
 import STAR.BootstrapSpeciesTreeSTARLowMem;
+import TreeManipulation.RemoveEdgeDistance;
 import TreeVector.TreeVector;
 import general.CalculateTripleDistant;
 import general.CreateInputMatrix;
 import general.CreateSNAFile;
 import general.CreateSNAFileComplex;
 import general.GenerateTable;
+import general.GenerateTableMPEST;
 import general.ReplaceHTMLFile;
 import mpest.BootstrapSpeciesTreeMPESTLowMem;
 import mpest.CreateSNAFileMPEST;
@@ -40,6 +42,14 @@ public class STRAW {
 					System.exit(0);
 				}
 				CreateSNAFileMPEST.execute(args_remain);
+			} else if (type.equals("-GenerateTableMPEST")) {
+				String[] args_remain = getRemaining(args);
+				if (args_remain.length == 0) {
+					System.out.println(GenerateTableMPEST
+							.parameter_info());
+					System.exit(0);
+				}
+				GenerateTableMPEST.execute(args_remain);			
 			} else if (type.equals("-GenerateTable")) {
 				String[] args_remain = getRemaining(args);
 				if (args_remain.length == 0) {
@@ -124,6 +134,15 @@ public class STRAW {
 					System.exit(0);
 				}
 				CreateSNAFileComplex.execute(args_remain);			
+				// RemoveEdgeDistance
+			} else if (type.equals("-RemoveEdgeDistance")) {
+				String[] args_remain = getRemaining(args);
+				if (args_remain.length == 0) {
+					System.out.println(RemoveEdgeDistance
+							.parameter_info());
+					System.exit(0);
+				}
+				RemoveEdgeDistance.execute(args_remain);			
 				// 
 			} else {
 				System.out.println("Here are the available programs");

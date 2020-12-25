@@ -1,6 +1,6 @@
 
 public class ProgramInfo {
 
-	public static String VERSION = "20161129";
+	public static String VERSION = "20170619";
 	
 }
